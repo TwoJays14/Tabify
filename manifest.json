@@ -6,7 +6,8 @@
   "description": "A tab manager",
 
   "icons": {
-    "48": "icons/border-48.png"
+    "48": "icons/tabLogo.webp",
+    "96": "icons/tabLogo.webp"
   },
 
   "permissions": [

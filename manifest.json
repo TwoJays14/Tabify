@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Tabify",
+  "version": "1.0",
+
+  "description": "A tab manager",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "permissions": [
+    "tabs"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "js": []
+    }
+  ]
+}

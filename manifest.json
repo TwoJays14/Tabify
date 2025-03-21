@@ -11,11 +11,31 @@
   },
 
   "permissions": [
-    "tabs"
+    "menus",
+    "tabs",
+    "storage",
+    "activeTab",
+    "http://*/*",
+    "https://*/*"
   ],
+
+  "browser_action":{
+    "default_popup": "popup.html"
+  },
+
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
 
   "background": {
     "scripts": ["background.js"]
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tabify@tabify.com"
+    }
   },
 
   "content_scripts": [
@@ -24,7 +44,7 @@
         "http://*/*",
         "https://*/*"
       ],
-      "js": []
+      "js": ["tabify.js"]
     }
   ]
 }

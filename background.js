@@ -1,6 +1,7 @@
 console.log("addon working");
 
-const groupedTabs = [];
+let highlightedTabs = [];
+let groupedTabs = [];
 
 if(browser && browser.menus) {
   console.log("context menus api working...")
@@ -25,7 +26,6 @@ async function getTabs() {
 
 function getHighlightedTabs(highlightInfo, tab) {
   console.log("tab", tab);
-  console.log("highlighted tabs: ", highlightInfo.tabIds)
   if (highlightInfo.tabIds.length > 1) {
     browser.menus.create({
       id: "add-group-option",
@@ -33,6 +33,12 @@ function getHighlightedTabs(highlightInfo, tab) {
       title: "Group Tabs",
       contexts: ["tab"]
      }, onCreated)
+
+    highlightedTabs = [];
+    highlightInfo.tabIds.forEach(tabId => {
+      highlightedTabs.push(tabId);
+    })
+    console.log("highlighted tabs in array: ", highlightedTabs);
 
   } else {
     browser
@@ -42,11 +48,14 @@ function getHighlightedTabs(highlightInfo, tab) {
 };
 
 async function onGroupTabClicked(info, tab) {
+  let index = 0
   if (info.menuItemId === "add-group-option") {
-    await browser.tabs.create({
-      url: "http://localhost:8080"
-    })
-
+    for (const tabId of highlightedTabs) {
+      const { url, title, id } = await browser.tabs.get(tabId);
+      groupedTabs.push({index, tabUrl: url, tabTitleName: title, tabId: id});
+      index++;
+      console.log("grouped Tabs array: ", groupedTabs);
+    }
   }
 }
 

@@ -26,7 +26,6 @@ async function onGroupTabClicked(info, tab) {
 async function createTabGroup() {
   let index = 0
 
-  console.log("highlighted tabs: ", highlightedTabs);
   for (const tabId of highlightedTabs) {
     const {url, title, id} = await browser.tabs.get(tabId);
     groupedTabs.push({index, tabUrl: url, tabTitleName: title, tabId: id});
@@ -40,8 +39,6 @@ async function createTabGroup() {
   await setStorageItem({
     tabGroups: groupedTabs
   });
-
-  console.log("item in sync storage: ", await getStorageItem("tabGroups"))
 }
 
 function setStorageItem(storageObject) {
@@ -69,7 +66,6 @@ function removeContextMenuItem(contextMenuId) {
 
 function addHighlightedTabsToStagingArea(highlightedTabInfo) {
   highlightedTabInfo.tabIds.forEach(tabId => {
-    console.log("tab id in foreach: ", tabId)
     highlightedTabs.push(tabId);
   })
 }

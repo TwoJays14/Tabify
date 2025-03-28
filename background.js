@@ -1,16 +1,11 @@
 let highlightedTabs = [];
 let groupedTabs = [];
+let savedTabs;
 let APP_GLOBALS = {
   GROUP_TABS_CONTEXT_MENU_ITEM_ID: "add-group-option"
 }
 
-function onCreated() {
-  if (browser.runtime.lastError) {
-    console.log(`Error: ${browser.runtime.lastError}`);
-  } else {
-    console.log("Item created successfully");
-  }
-}
+
 
 async function getTabs() {
   const tabsUrlsInCurrentWindow = await browser.tabs.query({currentWindow: true})
@@ -29,11 +24,7 @@ async function createTabGroup() {
   for (const tabId of highlightedTabs) {
     const {url, title, id} = await browser.tabs.get(tabId);
     groupedTabs.push({index, tabUrl: url, tabTitleName: title, tabId: id});
-    console.log(groupedTabs);
     index++;
-
-
-    console.log("grouped Tabs array: ", groupedTabs);
   }
 
   await setStorageItem({
@@ -41,11 +32,12 @@ async function createTabGroup() {
   });
 }
 
+
 function setStorageItem(storageObject) {
   return browser.storage.sync.set(storageObject);
 }
 
-function getStorageItem(storageItemId) {
+export function getStorageItem(storageItemId) {
   return browser.storage.sync.get(storageItemId);
 }
 
@@ -79,6 +71,14 @@ function getHighlightedTabs(highlightInfo, tab) {
 
   } else {
     removeContextMenuItem(APP_GLOBALS.GROUP_TABS_CONTEXT_MENU_ITEM_ID);
+  }
+}
+
+function onCreated() {
+  if (browser.runtime.lastError) {
+    console.log(`Error: ${browser.runtime.lastError}`);
+  } else {
+    console.log("Item created successfully");
   }
 }
 
